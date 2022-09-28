@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "tokenizer.h"
 
 int main(){
@@ -18,7 +19,7 @@ int main(){
   printf("%s\n",buffer);
   printf("test space_char:  %d\n", space_char(buffer[0]));
   printf("test non_space_char:  %d\n", non_space_char(buffer[0]));
-
+  
   char *p1 = word_start(buffer);
   printf("%c\n",*p1);
   printf("%d\n",p1);
@@ -26,9 +27,15 @@ int main(){
   char *p2 = word_terminator(p1);
   printf("%c\n",*p2);
   printf("%d\n",p2);
-
-  printf("number of words: %d\n",count_words(buffer));
-  
-  
+  int count = count_words(buffer);
+  printf("number of words: %d\n",count);
+  char *p3 = copy_str(buffer,count);
+  for(int x=0;*(p3+x) !='\0';x++){
+    printf("%c\n",p3[x]);
+  }
+  free(p3);
+  char **p = tokenize("hello my name is cooooooper");
+  print_tokens(p);
+  free(p);
   return 0;
 }
