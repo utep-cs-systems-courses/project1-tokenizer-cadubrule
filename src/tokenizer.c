@@ -109,6 +109,9 @@ void print_tokens(char **tokens){
 
 /* Frees all tokens and the vector containing themx. */
 void free_tokens(char **tokens){
-
+  for(int x=0;*(*(tokens+x))!='\0';x++){
+    free(*(tokens+x));
+  }
+  free(tokens);
   return;
 }

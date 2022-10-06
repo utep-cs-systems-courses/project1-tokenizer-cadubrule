@@ -1,41 +1,35 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "tokenizer.h"
+#include "history.h"
 
 int main(){
-  /*here we are using this UImain file to test our functions to begin with
-    we created a character array to jhold the user input and tested the space_char and
-    non_space_char methods. after this, we tested word_start and word_terminator on the given input
-    we even passed the pointer recieved by word_start to word_terminator to see if it gets the
-    correct word.Then i tested the count_words method using the buffer variable from user input
- I organized the Makefile to be similar to Lab0 though i have not added the 
-    connection to the history.h file.
-   */
+  int exit = 0;
+  List *hist1 = init_history();
+  printf("Hello welcome to the tokenizer\n");
+  while(exit == 0){
   char buffer[100];//100 as a general maxsize
-  puts("Please enter a string\n");
+  puts("please:\n1.Enter a string to tokenize\n2.Enter ! to print history\n3.Enter @ to exit.\n");
   printf("-->");
   fgets(buffer,100,stdin);
   printf("You entered: ");
   printf("%s\n",buffer);
-  printf("test space_char:  %d\n", space_char(buffer[0]));
-  printf("test non_space_char:  %d\n", non_space_char(buffer[0]));
-  
-  char *p1 = word_start(buffer);
-  printf("%c\n",*p1);
-  printf("%d\n",p1);
-
-  char *p2 = word_terminator(p1);
-  printf("%c\n",*p2);
-  printf("%d\n",p2);
-  int count = count_words(buffer);
-  printf("number of words: %d\n",count);
-  char *p3 = copy_str(buffer,count);
-  for(int x=0;*(p3+x) !='\0';x++){
-    printf("%c\n",p3[x]);
+  char **p;
+  switch(buffer[0]){
+  case '!':
+    print_history(hist1);
+    break;
+  case '@':
+    exit++;
+    break;
+  default:
+    p = tokenize(buffer);
+    add_history(hist1,p);
+    printf("added new  history item\n");
+    break;
   }
-  free(p3);
-  char **p = tokenize("hello my name is cooooooper");
-  print_tokens(p);
-  free(p);
+  }
+  free_history(hist1);
+  printf("thank you for using tokenizer");
   return 0;
 }
